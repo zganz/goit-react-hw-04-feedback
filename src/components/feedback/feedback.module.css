@@ -1,0 +1,12 @@
+ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    
+}
+.btnList{
+    display: flex;
+}
+.btn{
+    margin: 5px;
+}
