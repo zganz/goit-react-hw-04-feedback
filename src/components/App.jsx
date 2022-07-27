@@ -6,29 +6,35 @@ import { Section } from './Section/Section';
 import { Notification } from './Notification/Notification';
 
 export function App() {
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
+  const [feedback, setFeedback] = useState({
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  });
 
   const onButtonClick = event => {
     const clickTarget = event.target.textContent.toLowerCase();
-    if (clickTarget === 'good') {
-      setGood(good + 1);
-    } else if (clickTarget === 'neutral') {
-      setNeutral(neutral + 1);
-    } else if (clickTarget === 'bad') {
-      setBad(bad + 1);
-    }
+    setFeedback({
+      ...feedback,
+      [clickTarget]: feedback[clickTarget] + 1,
+    });
+
+    // if (clickTarget === 'good') {
+    //   setGood(good + 1);
+    // } else if (clickTarget === 'neutral') {
+    //   setNeutral(neutral + 1);
+    // } else if (clickTarget === 'bad') {
+    //   setBad(bad + 1);
+    // }
   };
 
   const countTotalFeedback = () => {
-    let total = 0;
-    total = good + neutral + bad;
-    return total;
+    const { good, neutral, bad } = feedback;
+    return good + neutral + bad;
   };
 
   const countPositiveFeedbackPercentage = () => {
-    let percentage = Math.round((good / countTotalFeedback()) * 100);
+    let percentage = Math.round((feedback.good / countTotalFeedback()) * 100);
     return percentage;
   };
 
@@ -45,9 +51,9 @@ export function App() {
           <Notification message="There is no feedback" />
         ) : (
           <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
+            good={feedback.good}
+            neutral={feedback.neutral}
+            bad={feedback.bad}
             total={countTotalFeedback()}
             positivePercentage={countPositiveFeedbackPercentage()}
           />
